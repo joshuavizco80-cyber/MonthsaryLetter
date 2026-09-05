@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 13th Monthsary ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ffd6e0, #ffb6c1, #ff91a4);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 420px;
+            background: #fffaf6;
+            border-radius: 24px;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.3);
+            min-height: 620px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ✨ LUMILIPAD NA PUSO */
+        .floating-heart {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.8;
+            animation: floatUp 5s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes floatUp {
+            0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            20%  { opacity: 0.8; }
+            100% { transform: translateY(-50px) rotate(360deg); opacity: 0; }
+        }
+
+        /* 📄 LAHAT NG PAGE */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fffaf6;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            pointer-events: none;
+            transition: opacity 1.2s ease, transform 1.2s ease;
+            z-index: 10;
+        }
+        .page.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .title {
+            font-size: 24px;
+            color: #442233;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* ✉️ PAGE 1 — ENVELOPE */
+        .main-envelope {
+            width: 220px;
+            height: 150px;
+            background: linear-gradient(180deg, #ffc2d1, #ff9ebb);
+            margin: 20px auto;
+            position: relative;
+            border-radius: 0 0 14px 14px;
+            transition: all 1.5s ease;
+            z-index: 5;
+        }
+        .main-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            background: linear-gradient(180deg, #ff9ebb, #ff8fab);
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top center;
+            transition: transform 1.5s ease;
+            z-index: 6;
+        }
+        .main-envelope.opened .main-flap { transform: rotateX(180deg); }
+        .heart-icon {
+            position: absolute;
+            top: 55px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 36px;
+            z-index: 7;
+            transition: opacity 1s ease;
+        }
+        .main-envelope.opened .heart-icon { opacity: 0; }
+
+        /* 💌 PAGE 2 — LETTER */
+        .letter-box {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(255, 107, 157, 0.25);
+            max-width: 340px;
+        }
+        .letter-box p {
+            font-size: 15px;
+            line-height: 1.9;
+            color: #442233;
+        }
+
+        /* 📩 PAGE 3 — 4 ENVELOPE */
+        .envelopes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .mini-envelope {
+            width: 110px;
+            height: 75px;
+            background: linear-gradient(180deg, #ffe4e9, #ffd1dc);
+            border-radius: 0 0 10px 10px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(255, 107, 157, 0.2);
+        }
+        .mini-envelope:hover { transform: scale(1.08); }
+        .mini-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 55px;
+            background: linear-gradient(180deg, #ffd1dc, #ffc2d1);
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top center;
+            transition: transform 0.6s ease;
+            z-index: 2;
+        }
+        .mini-envelope.opened .mini-flap { transform: rotateX(180deg); }
+        .mini-mark {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 22px;
+            z-index: 3;
+            transition: opacity 0.4s ease;
+        }
+        .mini-envelope.opened .mini-mark { opacity: 0; }
+
+        /* 🎵 PAGE 4 — MUSIC + LYRICS */
+        .music-box {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 6px 25px rgba(255, 107, 157, 0.25);
+            max-width: 340px;
+            width: 100%;
+        }
+        .music-note {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+        .song-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #442233;
+            margin-bottom: 4px;
+        }
+        .song-artist {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 15px;
+        }
+        audio {
+            width: 100%;
+            margin-bottom: 15px;
+            border-radius: 30px;
+        }
+        .lyrics-box {
+            background: #fff0f4;
+            padding: 18px;
+            border-radius: 14px;
+            max-height: 230px;
+            overflow-y: auto;
+            line-height: 1.7;
+            font-size: 13.5px;
+            color: #442233;
+        }
+        .lyrics-box::-webkit-scrollbar {
+            width: 5px;
+        }
+        .lyrics-box::-webkit-scrollbar-thumb {
+            background: #ffb6c1;
+            border-radius: 3px;
+        }
+
+        /* 🖼️ POP UP */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            z-index: 200;
+        }
+        .popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .popup-box {
+            width: 85%;
+            max-width: 500px;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.4);
+            transform: scale(0.8);
+            transition: transform 0.5s ease;
+        }
+        .popup-overlay.show .popup-box { transform: scale(1); }
+        .popup-img {
+            width: 100%;
+            height: auto;
+            border-radius: 14px;
+        }
+
+        /* 🔘 MGA BUTTON */
+        .btn {
+            margin-top: 20px;
+            padding: 15px 40px;
+            font-size: 18px;
+            background: linear-gradient(45deg, #ff3b6c, #ff6b9d);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 20px rgba(255, 59, 108, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 99999 !important;
+        }
+        .btn:hover { transform: scale(1.08); }
+
+        .back-button {
+            margin-top: 20px;
+            padding: 14px 40px;
+            font-size: 18px;
+            background: linear-gradient(45deg, #ff3b6c, #ff6b9d);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 59, 108, 0.4);
+            position: relative;
+            z-index: 99999 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="container">
+
+        <!-- ✉️ PAGE 1 -->
+        <div id="page1" class="page show">
+            <h1 class="title">❤️ Happy 13th Monthsary ❤️</h1>
+            <div class="main-envelope" id="mainEnv">
+                <div class="main-flap"></div>
+                <div class="heart-icon">❤️</div>
+            </div>
+            <button class="btn" id="btn1" onclick="goFrom1to2()">🏹 Click to Open!</button>
+        </div>
+
+        <!-- 💌 PAGE 2 — LETTER -->
+        <div id="page2" class="page">
+            <h2 class="title">💌 Happy 13th Monthsary 💌</h2>
+            <div class="letter-box">
+                <p>
+hello po my babi, baby, richie, asawa, mama!<br><br>
+happy 13th monthsary po!! more-more-more months and years to come po,<br><br>
+I’m happy because we’re still together and just enjoying the moment,<br><br>
+i hope you're happy with this simple cutie pie website,<br><br>
+iloveyousomuch! mwamwamwamwa!!
+                </p>
+            </div>
+            <button class="btn" onclick="goFrom2to3()">📸 Next → Our Photos</button>
+        </div>
+
+        <!-- 📩 PAGE 3 — 4 ENVELOPE -->
+        <div id="page3" class="page">
+            <h2 class="title">📸 Our Memories 📸</h2>
+            <p style="color:#777; font-size:14px; margin-bottom:10px;">Click an envelope to open</p>
+            <div class="envelopes-grid">
+                <div class="mini-envelope" data-img="pic1.jpg">
+                    <div class="mini-flap"></div>
+                    <div class="mini-mark">💌</div>
+                </div>
+                <div class="mini-envelope" data-img="pic2.jpg">
+                    <div class="mini-flap"></div>
+                    <div class="mini-mark">💌</div>
+                </div>
+                <div class="mini-envelope" data-img="pic3.jpg">
+                    <div class="mini-flap"></div>
+                    <div class="mini-mark">💌</div>
+                </div>
+                <div class="mini-envelope" data-img="pic4.jpg">
+                    <div class="mini-flap"></div>
+                    <div class="mini-mark">💌</div>
+                </div>
+            </div>
+            <button class="btn" onclick="goFrom3to4()">🎶 Next → Our Song</button>
+        </div>
+
+        <!-- 🎵 PAGE 4 — IKAW AT AKO by Jhonoy Danao -->
+        <div id="page4" class="page">
+            <h2 class="title">🎶 Our Favorite Song 🎶</h2>
+            <div class="music-box">
+                <div class="music-note">🎧</div>
+                <div class="song-title">Ikaw at Ako</div>
+                <div class="song-artist">— Jhonoy Danao —</div>
+                <audio controls autoplay loop>
+                    <source src="fav-song.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                
+                <div class="lyrics-box">
+♪♪♪♪♪<br><br>
+Sa dinami-dami ng tao sa mundo<br>
+Doon pa rin tayo nagkakilala<br>
+Hindi ko akalain na ikaw pala<br>
+Ang aking makakasama<br><br>
+
+Biglang nagbago ang takbo ng buhay<br>
+Nang makilala kita<br>
+Parang laging may kulang<br>
+Kung 'di ka kasama<br><br>
+
+Ikaw at ako<br>
+Walang iba<br>
+Pangako sa 'yo<br>
+Di magbabago<br>
+Kahit na anong mangyari<br>
+Tayong dalawa...<br>
+Ikaw at ako... ❤️<br><br>
+
+Sa bawat sandali<br>
+Sa bawat pagpihit ng panahon<br>
+Ikaw lang ang gusto kong<br>
+Kasama habang buhay<br><br>
+
+Handang maghintay<br>
+Kahit na gaano katagal<br>
+Dahil alam kong ikaw at ako<br>
+Ang itinadhana ng Maykapal<br><br>
+
+Ikaw at ako<br>
+Walang iba<br>
+Pangako sa 'yo<br>
+Di magbabago<br>
+Kahit na anong mangyari<br>
+Tayong dalawa...<br>
+Ikaw at ako... 💕<br><br>
+
+Walang iba kundi ikaw...<br>
+Ikaw at ako... ❤️🎶
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🖼️ POP UP -->
+    <div class="popup-overlay" id="popup">
+        <div class="popup-box">
+            <img src="" alt="Photo" class="popup-img" id="popupImg">
+        </div>
+        <button class="back-button" onclick="closePopupNow()">⬅️ BACK</button>
+    </div>
+
+<script>
+let page1done = false;
+let lastEnv = null;
+
+// ✨ FLOATING HEARTS
+const emojis = ['❤️','💕','💗','💖','💘','🌹','🌸','🌷','✨','💫'];
+function addHeart() {
+    const el = document.createElement('div');
+    el.className = 'floating-heart';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = Math.random() * 100 + '%';
+    el.style.animationDuration = (3 + Math.random() * 3) + 's';
+    document.getElementById('container').appendChild(el);
+    setTimeout(() => el.remove(), 8000);
+}
+setInterval(addHeart, 400);
+
+// ✉️ PAGE 1 → PAGE 2
+function goFrom1to2() {
+    if(page1done) return;
+    page1done = true;
+    document.getElementById('mainEnv').classList.add('opened');
+    setTimeout(() => {
+        document.getElementById('page1').classList.remove('show');
+        document.getElementById('page2').classList.add('show');
+    }, 2000);
+}
+
+// 💌 PAGE 2 → PAGE 3
+function goFrom2to3() {
+    document.getElementById('page2').classList.remove('show');
+    document.getElementById('page3').classList.add('show');
+}
+
+// 📩 PAGE 3 → PAGE 4
+function goFrom3to4() {
+    document.getElementById('page3').classList.remove('show');
+    document.getElementById('page4').classList.add('show');
+}
+
+// 🖼️ OPEN PHOTO POP UP
+document.querySelectorAll('.mini-envelope').forEach(env => {
+    env.addEventListener('click', () => {
+        lastEnv = env;
+        env.classList.add('opened');
+        const img = env.getAttribute('data-img');
+        document.getElementById('popupImg').src = img;
+        document.getElementById('popup').classList.add('show');
+    });
+});
+
+// ⬅️ CLOSE POP UP
+function closePopupNow() {
+    document.getElementById('popup').classList.remove('show');
+    document.getElementById('popupImg').src = '';
+    setTimeout(() => {
+        if(lastEnv) {
+            lastEnv.classList.remove('opened');
+            lastEnv = null;
+        }
+    }, 400);
+}
+</script>
+
+</body>
+</html>
